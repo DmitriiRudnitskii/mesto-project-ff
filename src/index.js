@@ -7,9 +7,14 @@
 // @todo: Функция удаления карточки
 
 // @todo: Вывести карточки на страницу
-import '/pages/index.css';
-import {initialCards} from '/scripts/cards.js';
-
+import '/src/index.css';
+import {initialCards} from '/src/cards.js';
+import { openModal, closeModal, addListener} from './components/modal.js';
+const editBtn = document.querySelector('.profile__edit-button');
+const popupEdit = document.querySelector('.popup_type_edit');
+const popupNewCard = document.querySelector('.popup_type_new-card');
+const popupImage = document.querySelector('.popup_type_image');
+const closeBtn = document.querySelector('.popup__close');
 const cardsTemplate = document.querySelector("#card-template").content;
 function createCard(cardObject, deleteCallback) {
   const cardElement = cardsTemplate.cloneNode(true);
@@ -33,3 +38,9 @@ initialCards.forEach((card) =>
 function deleteCard(cardElement) {
   cardElement.remove();
 }
+editBtn.addEventListener('click', ()=>{
+    openModal(popupEdit);
+});
+addListener(popupEdit, closeBtn);
+addListener(popupNewCard, closeBtn);
+addListener(popupImage, closeBtn);
