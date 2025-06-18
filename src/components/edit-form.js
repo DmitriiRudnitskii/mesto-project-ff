@@ -1,10 +1,10 @@
-import { closeModal } from "./modal";
+import { closeModal } from "./modal.js";
 
-export const editForm = document.forms['edit-profile'];
+export const editForm = document.forms["edit-profile"];
 const nameInput = editForm.elements.name;
 const jobInput = editForm.elements.description;
-const profileName = document.querySelector('.profile__title');
-const profileDescription = document.querySelector('.profile__description');
+const profileName = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
 jobInput.value = profileDescription.textContent;
 nameInput.value = profileName.textContent;
 
