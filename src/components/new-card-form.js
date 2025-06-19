@@ -1,8 +1,8 @@
-import { toggleLike } from "./cards.js";
+import { toggleLike } from "./card.js";
 import { showFullImage } from "./full-image.js";
 import { closeModal } from "./modal.js";
-import { createCard } from "./cards.js";
-import { deleteCard } from "./cards.js";
+import { createCard } from "./card.js";
+import { deleteCard } from "./card.js";
 export const newCardForm = document.forms["new-place"];
 const placeInput = newCardForm.elements["place-name"];
 const linkInput = newCardForm.elements["link"];
