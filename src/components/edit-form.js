@@ -5,8 +5,11 @@ const nameInput = editForm.elements.name;
 const jobInput = editForm.elements.description;
 const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
+export function setValue() {
 jobInput.value = profileDescription.textContent;
 nameInput.value = profileName.textContent;
+}
+
 
 export const handleEditFormSubmit = (evt, popup) => {
   evt.preventDefault();
@@ -14,3 +17,4 @@ export const handleEditFormSubmit = (evt, popup) => {
   profileDescription.textContent = jobInput.value;
   closeModal(popup);
 };
+
