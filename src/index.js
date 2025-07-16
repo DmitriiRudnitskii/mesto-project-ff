@@ -8,15 +8,14 @@
 
 // @todo: Вывести карточки на страницу
 import "/src/index.css";
-import { initialCards } from "./components/cards.js";
 import { openModal, addListener } from "./components/modal.js";
 import { editForm, handleEditFormSubmit, setValue } from "./components/edit-form.js";
 import { newCardForm, addCard } from "./components/new-card-form.js";
-import { createCard, toggleLike } from "./components/card.js";
+import { createCard, toggleLikeHandler } from "./components/card.js";
 import { showFullImage } from "./components/full-image.js";
-import { deleteCard } from "./components/card.js";
+import { deleteCard, updateLikeCounter } from "./components/card.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
-import {getInitialCards, getUserInfo} from "./components/api.js";
+import {getInitialCards, getUserInfo, deleteCardRequest, addLike, deleteLike} from "./components/api.js";
 
 const editBtn = document.querySelector(".profile__edit-button");
 const addBtn = document.querySelector(".profile__add-button");
@@ -34,6 +33,32 @@ const objectSettings = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_active',
 };
+export let initialCards = [];
+export let profileInfo;
+export const deleteCardCallback = (card) => {
+  deleteCardRequest(card.dataset.id);
+  deleteCard(card)
+}
+export const addLikeCallback = (evt) => {
+  const likedCard = evt.target.closest('.card');
+  const likedCardObject = initialCards.find((card) => card._id === likedCard.dataset.id)
+  if(likedCardObject.likes.some(like => like._id === profileInfo._id)) {
+    deleteLike(likedCard.dataset.id)
+    .then(result => {
+      updateLikeCounter(likedCard, result.likes.length);
+    })
+  }
+  addLike(likedCard.dataset.id)
+  
+  .then(result => {
+      updateLikeCounter(likedCard, result.likes.length);
+  });
+  toggleLikeHandler(evt);
+
+
+}
+
+
 
 
 editBtn.addEventListener("click", () => {
@@ -60,11 +85,17 @@ const promises = [getUserInfo(), getInitialCards()];
 Promise.all(promises)
   .then(results => {
     const [userInfo, cards] = results;
+    initialCards = cards;
+    profileInfo = userInfo;
     cards.forEach((card) => {
+      const cardElement = createCard(card, deleteCardCallback,addLikeCallback, showFullImage);
+      cardElement.querySelector('.card').setAttribute('data-id', card._id)
       document
         .querySelector(".places__list")
-        .append(createCard(card, deleteCard, toggleLike, showFullImage));
+        .append(cardElement);
+      
     });
+    
     const avatar = document.querySelector('.profile__image');
     const name = document.querySelector('.profile__title');
     const description = document.querySelector('.profile__description');
@@ -72,3 +103,6 @@ Promise.all(promises)
     name.textContent = userInfo.name;
     description.textContent = userInfo.about;
   });
+  
+
+
