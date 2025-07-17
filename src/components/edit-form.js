@@ -8,10 +8,9 @@ const jobInput = editForm.elements.description;
 const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 export function setValue() {
-jobInput.value = profileDescription.textContent;
-nameInput.value = profileName.textContent;
+  jobInput.value = profileDescription.textContent;
+  nameInput.value = profileName.textContent;
 }
-
 
 export const handleEditFormSubmit = (evt, popup) => {
   evt.preventDefault();
@@ -21,12 +20,11 @@ export const handleEditFormSubmit = (evt, popup) => {
       profileName.textContent = res.name;
       profileDescription.textContent = res.about;
       closeModal(popup);
-    }) .catch((err) => {
+    })
+    .catch((err) => {
       console.error("Ошибка редактирования профиля", err);
-    }) .finally(
-      () => {
-        renderLoading(false, evt.target);
-      }
-    )
+    })
+    .finally(() => {
+      renderLoading(false, evt.target);
+    });
 };
-
