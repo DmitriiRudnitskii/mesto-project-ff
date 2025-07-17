@@ -1,5 +1,6 @@
 import { closeModal } from "./modal.js";
 import { editUserInfo } from "./api.js";
+import { renderLoading } from "../index.js";
 
 export const editForm = document.forms["edit-profile"];
 const nameInput = editForm.elements.name;
@@ -14,11 +15,18 @@ nameInput.value = profileName.textContent;
 
 export const handleEditFormSubmit = (evt, popup) => {
   evt.preventDefault();
+  renderLoading(true, evt.target);
   editUserInfo(nameInput.value, jobInput.value)
     .then((res) => {
       profileName.textContent = res.name;
       profileDescription.textContent = res.about;
       closeModal(popup);
-    })
+    }) .catch((err) => {
+      console.error("Ошибка редактирования профиля", err);
+    }) .finally(
+      () => {
+        renderLoading(false, evt.target);
+      }
+    )
 };
 
