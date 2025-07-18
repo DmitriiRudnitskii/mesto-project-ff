@@ -18,7 +18,7 @@ export const addCard = (evt, popup) => {
   addNewCard(placeInput.value, linkInput.value)
     .then((res) => {
       const cardObject = res;
-      initialCards.unshift(cardObject);
+      // initialCards.unshift(cardObject);
       const newCard = createCard(
         cardObject,
         deleteCardCallback,

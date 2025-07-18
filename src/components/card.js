@@ -15,9 +15,7 @@ export function createCard(
   cardTitle.textContent = cardObject.name;
   cardImage.src = cardObject.link;
   cardImage.alt = cardObject.name;
-  if (cardObject.likes.length > 0) {
-    updateLikeCounter(cardElement, cardObject.likes.length);
-  }
+  updateLikeCounter(cardElement, cardObject.likes.length);
 
   if (cardObject.owner._id !== profileId) {
     cardDeleteButton.classList.add("card__delete-button-hidden");
@@ -49,5 +47,5 @@ export function deleteCard(cardElement) {
 
 export function updateLikeCounter(card, value) {
   const likeCounter = card.querySelector(".card__like-counter");
-  likeCounter.textContent = value;
+  likeCounter.textContent = value || '';
 }

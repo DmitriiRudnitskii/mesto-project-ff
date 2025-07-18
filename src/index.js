@@ -67,14 +67,12 @@ export const deleteCardCallback = (card) => {
 };
 export const addLikeCallback = (evt) => {
   const likedCard = evt.target.closest(".card");
-  const likedCardObject = initialCards.find(
-    (card) => card._id === likedCard.dataset.id,
-  );
-  if (likedCardObject.likes.some((like) => like._id === profileInfo._id)) {
+  const cardLikeButton = likedCard.querySelector(".card__like-button");
+  if (cardLikeButton.classList.contains("card__like-button_is-active")) {
     deleteLike(likedCard.dataset.id)
       .then((result) => {
-        likedCardObject.likes = result.likes;
         updateLikeCounter(likedCard, result.likes.length);
+        toggleLikeHandler(evt);
       })
       .catch((err) => {
         console.error(err);
@@ -82,14 +80,14 @@ export const addLikeCallback = (evt) => {
   } else {
      addLike(likedCard.dataset.id)
       .then((result) => {
-        likedCardObject.likes = result.likes;
         updateLikeCounter(likedCard, result.likes.length);
+        toggleLikeHandler(evt);
       })
       .catch((err) => {
         console.error(err);
       });
   }
-  toggleLikeHandler(evt);
+  
 };
 
 editBtn.addEventListener("click", () => {
